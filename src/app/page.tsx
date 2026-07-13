@@ -1,20 +1,79 @@
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
+
 export default function HomePage() {
   return (
-    <main style={{ minHeight: '100vh', background: '#080808', color: '#f8f4eb', padding: '80px 24px', fontFamily: 'Arial, sans-serif' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <img src="/assets/images/logo_vb.png" alt="Vania Billiard" style={{ width: 72, height: 72, objectFit: 'contain', marginBottom: 24 }} />
-        <p style={{ color: '#c86a36', textTransform: 'uppercase', letterSpacing: '0.22em', fontWeight: 700 }}>Vania Billiard</p>
-        <h1 style={{ fontSize: 'clamp(42px, 8vw, 88px)', lineHeight: 0.95, maxWidth: 850, margin: '18px 0' }}>
-          Meja billiard, aksesoris, dan konsultasi kebutuhan ruang.
-        </h1>
-        <p style={{ color: '#b8aca0', fontSize: 18, lineHeight: 1.8, maxWidth: 720 }}>
-          Website lama Vania Billiard sedang di-upgrade menjadi full-stack modern dengan flow UI/UX lama yang tetap sederhana: katalog, simulator, profil, jurnal, B2B, dan WhatsApp.
-        </p>
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 32 }}>
-          <a href="https://wa.me/6282241545326" target="_blank" rel="noreferrer" style={{ background: '#c86a36', color: '#080808', padding: '14px 22px', fontWeight: 700, textDecoration: 'none' }}>Konsultasi WhatsApp</a>
-          <a href="/katalog" style={{ border: '1px solid rgba(255,255,255,.16)', color: '#f8f4eb', padding: '14px 22px', textDecoration: 'none' }}>Lihat Katalog</a>
-        </div>
-      </div>
-    </main>
+    <>
+      <Header />
+
+      <main style={{ minHeight: "70vh", background: "#080808", color: "#f8f4eb", padding: "96px 24px" }}>
+        <section className="container">
+          <p
+            style={{
+              color: "#c86a36",
+              fontWeight: 800,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              marginBottom: 24,
+            }}
+          >
+            Step 1 UI Foundation
+          </p>
+
+          <h1
+            style={{
+              maxWidth: 920,
+              fontFamily: "Georgia, 'Times New Roman', serif",
+              fontSize: "clamp(48px, 8vw, 96px)",
+              lineHeight: 0.94,
+              margin: "0 0 28px",
+            }}
+          >
+            Seni Presisi Dalam Akurasi Permainan.
+          </h1>
+
+          <p style={{ maxWidth: 680, color: "#a7a7a7", fontSize: 18, lineHeight: 1.8, marginBottom: 36 }}>
+            Header dan footer premium sudah dipasang sebagai fondasi UI/UX baru. Tahap berikutnya adalah membuat hero,
+            ticker, statistik, dan section produk agar semakin mendekati tampilan legacy Vania Billiard.
+          </p>
+
+          <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+            <a
+              href="/katalog"
+              style={{
+                display: "inline-flex",
+                background: "#c86a36",
+                color: "white",
+                padding: "15px 22px",
+                fontWeight: 800,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                fontSize: 12,
+              }}
+            >
+              Eksplorasi Kurasi
+            </a>
+
+            <a
+              href="/simulator"
+              style={{
+                display: "inline-flex",
+                border: "1px solid rgba(255,255,255,0.18)",
+                color: "#f8f4eb",
+                padding: "15px 22px",
+                fontWeight: 800,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                fontSize: 12,
+              }}
+            >
+              Temukan Meja Ideal
+            </a>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+    </>
   );
 }
