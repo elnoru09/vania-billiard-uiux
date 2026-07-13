@@ -1,74 +1,84 @@
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 
+const trustedBy = [
+  "VIP Lounge Semarang",
+  "Executive Club Ambarawa",
+  "Grand Arena",
+  "Private Villa Bali",
+  "Onyx Billiard",
+];
+
 export default function HomePage() {
   return (
     <>
       <Header />
 
-      <main style={{ minHeight: "70vh", background: "#080808", color: "#f8f4eb", padding: "96px 24px" }}>
-        <section className="container">
-          <p
-            style={{
-              color: "#c86a36",
-              fontWeight: 800,
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              marginBottom: 24,
-            }}
-          >
-            Step 1 UI Foundation
-          </p>
+      <main>
+        <section className="hero-split">
+          <div className="hero-split__content">
+            <div className="hero-split__line" />
 
-          <h1
-            style={{
-              maxWidth: 920,
-              fontFamily: "Georgia, 'Times New Roman', serif",
-              fontSize: "clamp(48px, 8vw, 96px)",
-              lineHeight: 0.94,
-              margin: "0 0 28px",
-            }}
-          >
-            Seni Presisi Dalam Akurasi Permainan.
-          </h1>
+            <h1 className="hero-split__title">
+              <span>Seni Presisi</span>
+              <span className="hero-split__italic">Dalam</span>
+              <span className="hero-split__accent">Akurasi Permainan</span>
+            </h1>
 
-          <p style={{ maxWidth: 680, color: "#a7a7a7", fontSize: 18, lineHeight: 1.8, marginBottom: 36 }}>
-            Header dan footer premium sudah dipasang sebagai fondasi UI/UX baru. Tahap berikutnya adalah membuat hero,
-            ticker, statistik, dan section produk agar semakin mendekati tampilan legacy Vania Billiard.
-          </p>
+            <p className="hero-split__description">
+              Menghadirkan furnitur hiburan bertaraf turnamen. Kami mengkurasi, mengirim, dan merakit presisi absolut
+              untuk ruang eksklusif Anda.
+            </p>
 
-          <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-            <a
-              href="/katalog"
-              style={{
-                display: "inline-flex",
-                background: "#c86a36",
-                color: "white",
-                padding: "15px 22px",
-                fontWeight: 800,
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                fontSize: 12,
-              }}
-            >
-              Eksplorasi Kurasi
-            </a>
+            <div className="hero-split__actions">
+              <a href="/katalog" className="hero-link">
+                Eksplorasi Kurasi
+                <span />
+              </a>
 
-            <a
-              href="/simulator"
-              style={{
-                display: "inline-flex",
-                border: "1px solid rgba(255,255,255,0.18)",
-                color: "#f8f4eb",
-                padding: "15px 22px",
-                fontWeight: 800,
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                fontSize: 12,
-              }}
-            >
-              Temukan Meja Ideal
-            </a>
+              <a href="/simulator" className="hero-outline">
+                Temukan Meja Ideal 🎯
+              </a>
+
+              <a href="/profil" className="hero-play">
+                <span>▶</span>
+                Proses Leveling
+              </a>
+            </div>
+          </div>
+
+          <div className="hero-split__visual" aria-label="Meja billiard premium Vania Billiard">
+            <div className="hero-split__image" />
+
+            <div className="hotspot hotspot--cloth">
+              <span className="hotspot__pulse" />
+              <span className="hotspot__dot" />
+              <div className="hotspot__card">
+                <strong>Worsted Cloth</strong>
+                <p>Anyaman tanpa bulu, memaksimalkan laju bola tanpa friksi berlebih.</p>
+              </div>
+            </div>
+
+            <div className="hotspot hotspot--pocket">
+              <span className="hotspot__pulse" />
+              <span className="hotspot__dot" />
+              <div className="hotspot__card">
+                <strong>Leather Pocket</strong>
+                <p>Jahitan kulit dengan redaman suara untuk kenyamanan bermain optimal.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="trust-ticker" aria-label="Dipercaya oleh">
+          <div className="trust-ticker__label">Dipercaya Oleh:</div>
+
+          <div className="trust-ticker__track">
+            {[...trustedBy, ...trustedBy].map((item, index) => (
+              <span key={`${item}-${index}`} className="trust-ticker__item">
+                {item}
+              </span>
+            ))}
           </div>
         </section>
       </main>
