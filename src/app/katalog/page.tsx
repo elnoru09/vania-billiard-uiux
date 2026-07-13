@@ -121,6 +121,20 @@ export default function KatalogPage() {
                 </p>
                 <h2 style={{ margin: "10px 0 12px", fontSize: 28 }}>{product.name}</h2>
                 <p style={{ margin: 0, color: "#b8aca0", lineHeight: 1.7 }}>{product.description}</p>
+
+<a
+  href={`/produk/${product.name.toLowerCase().replaceAll(" ", "-")}`}
+  style={{
+    display: "inline-flex",
+    marginTop: 18,
+    marginRight: 18,
+    color: "#f8f4eb",
+    fontWeight: 800,
+  }}
+>
+  Lihat detail →
+</a>
+
                 <a
                   href={`https://wa.me/6282241545326?text=${encodeURIComponent(
                     `Halo Vania Billiard, saya ingin konsultasi tentang ${product.name}.`
