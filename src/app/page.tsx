@@ -12,7 +12,7 @@ export default function HomePage() {
         </p>
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 32 }}>
           <a href="https://wa.me/6282241545326" target="_blank" rel="noreferrer" style={{ background: '#c86a36', color: '#080808', padding: '14px 22px', fontWeight: 700, textDecoration: 'none' }}>Konsultasi WhatsApp</a>
-          <a href="#katalog" style={{ border: '1px solid rgba(255,255,255,.16)', color: '#f8f4eb', padding: '14px 22px', textDecoration: 'none' }}>Lihat Katalog</a>
+          <a href="/katalog" style={{ border: '1px solid rgba(255,255,255,.16)', color: '#f8f4eb', padding: '14px 22px', textDecoration: 'none' }}>Lihat Katalog</a>
         </div>
       </div>
     </main>
