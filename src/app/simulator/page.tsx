@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { type FormEvent, useMemo, useState } from "react";
 
 function getRecommendation(length: number, width: number) {
   if (!length || !width) {
@@ -45,16 +45,83 @@ function getRecommendation(length: number, width: number) {
   };
 }
 
+type SubmitStatus = {
+  type: "idle" | "success" | "error";
+  message: string;
+};
+
 export default function SimulatorPage() {
   const [length, setLength] = useState("5");
   const [width, setWidth] = useState("4");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<SubmitStatus>({
+    type: "idle",
+    message: "",
+  });
 
   const result = useMemo(() => {
     return getRecommendation(Number(length), Number(width));
   }, [length, width]);
 
-  const waText = `Halo Vania Billiard, saya ingin konsultasi ukuran meja billiard. Ukuran ruangan saya sekitar ${length}m x ${width}m.`;
+  const message = `Ukuran ruangan: ${length}m x ${width}m. Rekomendasi awal: ${result.table}. Status: ${result.title}.`;
+
+  const waText = `Halo Vania Billiard, saya ingin konsultasi ukuran meja billiard. ${message}`;
   const waUrl = `https://wa.me/6282241545326?text=${encodeURIComponent(waText)}`;
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setStatus({
+      type: "idle",
+      message: "",
+    });
+
+    try {
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          phone,
+          source: "simulator",
+          product: "Simulator Ruang",
+          message,
+        }),
+      });
+
+      const data = (await response.json()) as {
+        success?: boolean;
+        message?: string;
+      };
+
+      if (!response.ok || !data.success) {
+        setStatus({
+          type: "error",
+          message: data.message ?? "Lead gagal dikirim. Periksa kembali data yang diisi.",
+        });
+        return;
+      }
+
+      setStatus({
+        type: "success",
+        message: "Data konsultasi berhasil dikirim. Admin dapat melihat lead dari log server untuk tahap awal.",
+      });
+
+      setName("");
+      setPhone("");
+    } catch {
+      setStatus({
+        type: "error",
+        message: "Terjadi kesalahan koneksi saat mengirim lead.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
     <main style={{ minHeight: "100vh", background: "#080808", color: "#f8f4eb" }}>
@@ -97,8 +164,8 @@ export default function SimulatorPage() {
           Cek kebutuhan ruang sebelum membeli meja billiard.
         </h1>
         <p style={{ maxWidth: 720, color: "#b8aca0", fontSize: 18, lineHeight: 1.8 }}>
-          Masukkan ukuran ruangan untuk mendapatkan rekomendasi awal. Hasil ini bersifat estimasi, lalu dapat
-          dilanjutkan ke konsultasi WhatsApp.
+          Masukkan ukuran ruangan untuk mendapatkan rekomendasi awal. Setelah itu, isi nama dan WhatsApp agar data
+          konsultasi masuk ke backend <strong>/api/leads</strong>.
         </p>
 
         <div
@@ -110,7 +177,10 @@ export default function SimulatorPage() {
             alignItems: "start",
           }}
         >
-          <div style={{ background: "#141414", border: "1px solid rgba(255,255,255,0.12)", padding: 26 }}>
+          <form
+            onSubmit={handleSubmit}
+            style={{ background: "#141414", border: "1px solid rgba(255,255,255,0.12)", padding: 26 }}
+          >
             <label style={{ display: "block", color: "#b8aca0", marginBottom: 10 }}>Panjang ruangan, meter</label>
             <input
               type="number"
@@ -141,9 +211,72 @@ export default function SimulatorPage() {
                 background: "#080808",
                 border: "1px solid rgba(255,255,255,0.16)",
                 color: "#f8f4eb",
+                marginBottom: 20,
               }}
             />
-          </div>
+
+            <label style={{ display: "block", color: "#b8aca0", marginBottom: 10 }}>Nama</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              placeholder="Nama pelanggan"
+              style={{
+                width: "100%",
+                padding: "14px 16px",
+                background: "#080808",
+                border: "1px solid rgba(255,255,255,0.16)",
+                color: "#f8f4eb",
+                marginBottom: 20,
+              }}
+            />
+
+            <label style={{ display: "block", color: "#b8aca0", marginBottom: 10 }}>Nomor WhatsApp</label>
+            <input
+              type="text"
+              value={phone}
+              onChange={(event) => setPhone(event.target.value)}
+              placeholder="Contoh: 6281234567890"
+              style={{
+                width: "100%",
+                padding: "14px 16px",
+                background: "#080808",
+                border: "1px solid rgba(255,255,255,0.16)",
+                color: "#f8f4eb",
+              }}
+            />
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              style={{
+                display: "inline-flex",
+                marginTop: 24,
+                background: isSubmitting ? "#7a4a31" : "#c86a36",
+                color: "#080808",
+                border: 0,
+                padding: "14px 22px",
+                fontWeight: 800,
+                textTransform: "uppercase",
+                letterSpacing: "0.04em",
+                cursor: isSubmitting ? "not-allowed" : "pointer",
+              }}
+            >
+              {isSubmitting ? "Mengirim..." : "Kirim Konsultasi"}
+            </button>
+
+            {status.message ? (
+              <p
+                style={{
+                  margin: "18px 0 0",
+                  color: status.type === "success" ? "#72d572" : "#ff8a8a",
+                  lineHeight: 1.7,
+                }}
+              >
+                {status.message}
+              </p>
+            ) : null}
+          </form>
 
           <div style={{ background: "#141414", border: "1px solid rgba(255,255,255,0.12)", padding: 26 }}>
             <p style={{ margin: 0, color: "#c86a36", fontWeight: 800, letterSpacing: "0.18em" }}>HASIL ESTIMASI</p>
@@ -169,15 +302,16 @@ export default function SimulatorPage() {
               style={{
                 display: "inline-flex",
                 marginTop: 24,
-                background: "#c86a36",
-                color: "#080808",
+                background: "transparent",
+                color: "#c86a36",
+                border: "1px solid rgba(200,106,54,0.55)",
                 padding: "14px 22px",
                 fontWeight: 800,
                 textTransform: "uppercase",
                 letterSpacing: "0.04em",
               }}
             >
-              Kirim hasil ke WhatsApp
+              WhatsApp fallback
             </a>
           </div>
         </div>
