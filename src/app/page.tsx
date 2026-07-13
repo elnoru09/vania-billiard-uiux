@@ -1,5 +1,7 @@
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { HomeConsultationForm } from "@/components/sections/HomeConsultationForm";
+import { products } from "@/data/products";
 
 const trustedBy = [
   "VIP Lounge Semarang",
@@ -191,6 +193,64 @@ export default function HomePage() {
           </blockquote>
           <p>Vania Billiard — Ambarawa</p>
         </section>
+
+        <section className="collection-preview">
+          <div className="section-heading">
+            <p>The Collection</p>
+            <h2>Karya Terpilih</h2>
+          </div>
+
+          <div className="collection-preview__list">
+            {products.slice(0, 3).map((product, index) => (
+              <article
+                key={product.slug}
+                className={index % 2 === 0 ? "collection-item" : "collection-item collection-item--reverse"}
+              >
+                <a href={`/produk/${product.slug}`} className="collection-item__image">
+                  <img src={product.image} alt={product.name} />
+                </a>
+
+                <div className="collection-item__content">
+                  <div className="collection-item__badges">
+                    <span>{product.category}</span>
+                    <span>Kargo Reguler</span>
+                  </div>
+
+                  <h3>{product.name}</h3>
+                  <p>{product.description}</p>
+
+                  <div className="collection-item__actions">
+                    <a href={`/produk/${product.slug}`} className="button-copper">
+                      Lihat Detail & Specs
+                    </a>
+                    <a href="/simulator" className="button-outline">
+                      Konsultasi WA
+                    </a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="collection-preview__footer">
+            <a href="/katalog">Lihat Seluruh Koleksi →</a>
+          </div>
+        </section>
+
+        <section className="consult-section" id="pesan">
+          <div className="consult-section__inner">
+            <div className="consult-section__copy">
+              <h2>Undangan Diskusi.</h2>
+              <p>
+                Sampaikan kebutuhan Anda. Berikan detail lokasi agar tim kurator kami dapat menghitung presisi total
+                biaya unit, instalasi, dan kebutuhan ruang.
+              </p>
+            </div>
+
+            <HomeConsultationForm />
+          </div>
+        </section>
+
       </main>
 
       <Footer />
